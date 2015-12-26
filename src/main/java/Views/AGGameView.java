@@ -32,7 +32,7 @@ public class AGGameView {
     public int askForX() {
         AGGameModeOption[] options = AGGameModeOption.values();
         Integer option = cli.readInt();
-        if (option > options.length) {
+        if (option == null || option > options.length) {
             // Ask for the game mode again since the last selection was invalid
             cli.write(AGTexts.INVALID_INPUT);
             return askForX();
