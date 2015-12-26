@@ -78,13 +78,16 @@ public class AGGameView {
      * Print the game rules to the view.
      */
     public void printGameRules() {
-        // TODO
+        cli.write(AGTexts.GAME_RULES);
+        cli.write("\n");
     }
 
     /**
      * Print the game mode options to the view.
      */
     public void printGameModeOptions() {
+        cli.write(AGTexts.GAME_MODE_OPTIONS_EXPLANATION);
+        cli.write("\n");
         AGGameModeOption[] options = AGGameModeOption.values();
         for (int i = 0; i < options.length; i++) {
             cli.write(i + 1 + ". ");
@@ -157,6 +160,15 @@ public class AGGameView {
         cli.write(score);
         cli.write("\n");
         cli.write(AGTexts.GAME_FINISHED_MESSAGE);
+        cli.write("\n");
+    }
+
+    /**
+     * Print the time out message to the view. Should be called when the user has entered the correct value but when
+     * the time has ran out.
+     */
+    public void printTimeOutMessage() {
+        cli.write(AGTexts.TIMEOUT_MESSSAGE);
         cli.write("\n");
     }
 }

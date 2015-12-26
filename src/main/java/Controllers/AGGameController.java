@@ -62,17 +62,27 @@ public class AGGameController {
      * Game logic for one game round.
      */
     private void playRound() {
+        stopWatch.start();
         view.printScoreInfo(currentSession.getScore());
         List<Integer> sequence = sequenceGenerator.getRandomNumbers(config.getSequenceLength());
         view.printSequence(sequence);
         List<Integer> playerGuessSequence = view.askForGuess(config.getSequenceLength());
         List<Integer> correctSequence = sequenceChecker.createModifiedList(sequence, currentSession.getX());
-        view.printCorrectSequence(correctSequence);
+        float thinkingTimeSec = stopWatch.stop();
         if (sequenceChecker.areEqual(correctSequence, playerGuessSequence)) {
-            view.printCorrectSequenceMessage();
-            currentSession.addScore(config.getSequenceLength());
-        } else {
+            if (thinkingTimeSec < config.getThinkingTimeSec()) {
+                // Correct answer, continue to the next round.
+                view.printCorrectSequenceMessage();
+                currentSession.addScore(config.getSequenceLength());
+            } else {
+                // Correct answer but too slow, finish the game.
+                view.printTimeOutMessage();
+                currentSession.finish();
+            }
+       } else {
+            // Wrong answer, finish the game.
             view.printWrongSequenceMessage();
+            view.printCorrectSequence(correctSequence);
             currentSession.finish();
         }
     }
