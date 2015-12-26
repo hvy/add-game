@@ -45,7 +45,7 @@ public class AGGameController {
         view.printGameRules();
         view.printGameModeOptions();
 
-        // Ask for the x in Add-x. Any value >= 0 is allowed.
+        // Ask the player for the x in Add-x. Any value >= 0 is allowed.
         int x = view.askForX();
         currentSession = new AGGameSession(x);
 
