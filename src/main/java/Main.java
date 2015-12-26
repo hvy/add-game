@@ -3,7 +3,8 @@ import Models.AGGameConfiguration;
 
 public class Main {
     public static void main(String args[]) {
-        AGGameConfiguration config = new AGGameConfiguration(Const.SEQUENCE_LENGTH, Const.THINKING_TIME_SEC);
+        Configuration configFile = new Configuration();
+        AGGameConfiguration config = new AGGameConfiguration(configFile.getSequenceLength(), configFile.getThinkingTimeSec());
         AGGameController game = new AGGameController(config);
         game.startGame();
     }

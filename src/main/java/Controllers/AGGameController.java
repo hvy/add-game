@@ -10,7 +10,7 @@ import Views.AGGameView;
 import java.util.List;
 
 /**
- * The main class responsible for the main flow of the game.
+ * The class responsible for the main flow of the game.
  *
  * @author hvy
  * @version 1.0
@@ -24,7 +24,11 @@ public class AGGameController {
     private AGNumberSequenceChecker sequenceChecker;
     private AGStopWatch stopWatch;
 
-
+    /**
+     * Constructor method.
+     *
+     * @param config The game configuration.
+     */
     public AGGameController(AGGameConfiguration config) {
         this.config = config;
         view = new AGGameView();
@@ -33,6 +37,9 @@ public class AGGameController {
         stopWatch = new AGStopWatch();
     }
 
+    /**
+     * Starts the main game loop (game rounds).
+     */
     public void startGame() {
         view.printWelcomeText();
         view.printGameRules();
@@ -51,9 +58,12 @@ public class AGGameController {
         view.printFinishMessage(currentSession.getScore());
     }
 
+    /**
+     * Game logic for one game round.
+     */
     private void playRound() {
-        List<Integer> sequence = sequenceGenerator.getRandomNumbers(config.getSequenceLength());
         view.printScoreInfo(currentSession.getScore());
+        List<Integer> sequence = sequenceGenerator.getRandomNumbers(config.getSequenceLength());
         view.printSequence(sequence);
         List<Integer> playerGuessSequence = view.askForGuess(config.getSequenceLength());
         List<Integer> correctSequence = sequenceChecker.createModifiedList(sequence, currentSession.getX());
