@@ -1,10 +1,10 @@
 # The Add Game
 
 ## About
-This is an implementation of a game inspired by the Add-1 Game explained in the Book [Thinking, Fast and Slow by Daniel Kahneman](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow) in the section PART I. Two Systems - 2. Attention and Effort. Daniel Kahneman is a psychologist in the field decision making and received the Nobel Memorial Prize in Economic Sciences in 2002. The book itself was written in 2011.
+This is an implementation of a game inspired by the Add-1 game explained in the Book [Thinking, Fast and Slow by Daniel Kahneman](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow) in the section PART I. Two Systems - 2. Attention and Effort. Daniel Kahneman is a psychologist in the field decision making and received the Nobel Memorial Prize in Economic Sciences in 2002. The book itself was written in 2011.
 
 ### Rules
-The game is round based an the goal is to survive as many rounds as possible. In the beginning of each round, four digits are displayed on the screen x<sub>i</sub>, i = 1,2,3,4. The player needs to quickly, within a few seconds enter a new sequence of digits x'<sub>i</sub> where x'<sub>i</sub> = x<sub>i</sub> + X mod 10 where X = 1 in the Add-1 game but could be changed to any positive number.
+The game is round based an the goal is to survive as many rounds as possible. In the beginning of each round, four digits are displayed on the screen x<sub>i</sub>, i = 1, 2, 3, 4. The player needs to quickly, within a few seconds enter a new sequence of digits x'<sub>i</sub> where x'<sub>i</sub> = x<sub>i</sub> + X mod 10 where X = 1 in the Add-1 game but could be changed to any positive number.
 
 ## Installation
 ### Prerequisites
