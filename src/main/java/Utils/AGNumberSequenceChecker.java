@@ -14,19 +14,13 @@ import java.util.stream.IntStream;
 public class AGNumberSequenceChecker {
 
     /**
-     * Default constructor.
-     */
-    public AGNumberSequenceChecker() {
-    }
-
-    /**
      * Create a new sequence from a given sequence the x added to each element mod 10.
      *
      * @param baseList The base sequence.
      * @param x The value that is added to each element in the sequence mod 10.
      * @return A new sequence with x added to each element in the given list mod 10.
      */
-    public List<Integer> createModifiedList(List<Integer> baseList, int x) {
+    public static List<Integer> createModifiedList(List<Integer> baseList, int x) {
         return baseList.stream().map(b -> (b + x) % 10).collect(Collectors.toList());
     }
 
@@ -37,7 +31,7 @@ public class AGNumberSequenceChecker {
      * @param sndList The second sequence.
      * @return True if the first and the second sequence contain the same elements in the same order, false otherwise.
      */
-    public boolean areEqual(List<Integer> fstList, List<Integer> sndList) {
+    public static boolean areEqual(List<Integer> fstList, List<Integer> sndList) {
         if (fstList.size() != sndList.size()) {
             return false;
         }

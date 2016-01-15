@@ -11,7 +11,7 @@ import java.util.Properties;
 public final class Configuration {
 
     private int sequenceLength;
-    private int thinkingTimeSec;
+    private float thinkingTimeMs;
 
     /**
      * Default constructor that automatically loads the configuration file.
@@ -28,10 +28,10 @@ public final class Configuration {
     }
 
     /**
-     * @return The configuration thinking time in seconds.
+     * @return The configuration thinking time in ms.
      */
-    public int getThinkingTimeSec() {
-        return thinkingTimeSec;
+    public float getThinkingTimeMs() {
+        return thinkingTimeMs;
     }
 
     /**
@@ -44,7 +44,7 @@ public final class Configuration {
             Properties properties = new Properties();
             properties.load(in);
             sequenceLength = Integer.parseInt(properties.getProperty("sequencelength"));
-            thinkingTimeSec = Integer.parseInt(properties.getProperty("thinkingtimesec"));
+            thinkingTimeMs = Float.parseFloat(properties.getProperty("thinkingtimems"));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -1,5 +1,6 @@
 package Controllers;
 
+import Exceptions.AGInvalidArgumentException;
 import Models.AGGameConfiguration;
 import Models.AGGameSession;
 import Utils.AGNumberSequenceChecker;
@@ -7,6 +8,7 @@ import Utils.AGRandomNumberGenerator;
 import Utils.AGStopWatch;
 import Views.AGGameView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,9 +22,11 @@ public class AGGameController {
     private AGGameView view;
     private AGGameSession currentSession;
     private AGGameConfiguration config;
-    private AGRandomNumberGenerator sequenceGenerator;
-    private AGNumberSequenceChecker sequenceChecker;
     private AGStopWatch stopWatch;
+
+    private List<Integer> playerGuessSequence = null;
+    private List<Integer> correctSequence = null;
+    private float thinkingTime = 0;
 
     /**
      * Constructor method.
@@ -32,13 +36,11 @@ public class AGGameController {
     public AGGameController(AGGameConfiguration config) {
         this.config = config;
         view = new AGGameView();
-        sequenceGenerator = new AGRandomNumberGenerator();
-        sequenceChecker = new AGNumberSequenceChecker();
         stopWatch = new AGStopWatch();
     }
 
     /**
-     * Starts the main game loop (game rounds).
+     * Start the main game loop (game rounds).
      */
     public void startGame() {
         view.printWelcomeText();
@@ -47,43 +49,116 @@ public class AGGameController {
 
         // Ask the player for the x in Add-x. Any value >= 0 is allowed.
         int x = view.askForX();
-        currentSession = new AGGameSession(x);
+        try {
+            initSession(x);
+        } catch (AGInvalidArgumentException e) {
+        }
 
-        // Start the main loop
+        // Start the main loop.
         while (!currentSession.isFinished()) {
             playRound();
         }
 
-        // Print the game quit message and exit the game
-        view.printFinishMessage(currentSession.getScore());
+        // Print the game quit message and exit the game.
+        view.printFinishMessage(getCurrentScore());
+
+        // Exit the game.
+    }
+
+    /**
+     * Initialize the session with the given X. This method should be called once before starting the main game loop.
+     *
+     * @param x The X value to use throughout the game.
+     * @throws AGInvalidArgumentException The exception that is thrown when the x is invalid.
+     */
+    public void initSession(int x) throws AGInvalidArgumentException {
+        currentSession = new AGGameSession(x);
+    }
+
+    /**
+     * End the current session. This method should be called to exit the game.
+     */
+    public void endSession() {
+        currentSession.finish();
+    }
+
+    /**
+     * @return True if the session is still alive, false otherwise.
+     */
+    public boolean isSessionFinished() {
+        return currentSession.isFinished();
+    }
+
+    /**
+     * Returns true if the given time is acceptable with respect to the given time limit.
+     *
+     * @param timeLimit The time limit, i.e. the maximum allowed time.
+     * @param time The time that is tested for acceptance.
+     * @return True if the time is acceptable, false otherwise.
+     */
+    public boolean isWithinTimeLimit(float timeLimit, float time) {
+        return time <= timeLimit;
+    }
+
+
+    /**
+     * @return The current player session score.
+     */
+    public int getCurrentScore() {
+        return currentSession.getScore();
+    }
+
+    /**
+     * Add the given score to the current player session.
+     *
+     * @param score The amount to add to the score.
+     */
+    private void addScore(int score) {
+        currentSession.addScore(score);
+    }
+
+    /**
+     * The
+     * @param correctSequence
+     * @param playerGuessSequence
+     * @param thinkingTimeLimit
+     * @param thinkingTime
+     */
+    public void handleRoundEnd(List<Integer> correctSequence, List<Integer> playerGuessSequence, float thinkingTimeLimit, float thinkingTime) {
+       if (AGNumberSequenceChecker.areEqual(correctSequence, playerGuessSequence)) {
+            if (isWithinTimeLimit(thinkingTimeLimit, thinkingTime)) {
+                // Correct answer, continue to the next round.
+                view.printCorrectSequenceMessage();
+                // Add to the user score the length of the sequence for a correct input.
+                addScore(correctSequence.size());
+            } else {
+                // Correct answer but too slow, finish the game.
+                view.printTimeOutMessage();
+                endSession();
+            }
+       } else {
+            // Wrong answer, finish the game.
+            view.printWrongSequenceMessage();
+            view.printCorrectSequence(correctSequence);
+            endSession();
+        }
     }
 
     /**
      * Game logic for one game round.
      */
     private void playRound() {
-        stopWatch.start();
-        view.printScoreInfo(currentSession.getScore());
-        List<Integer> sequence = sequenceGenerator.getRandomNumbers(config.getSequenceLength());
+        view.printScoreInfo(getCurrentScore());
+        List<Integer> sequence = AGRandomNumberGenerator.getRandomNumbers(config.getSequenceLength());
         view.printSequence(sequence);
-        List<Integer> playerGuessSequence = view.askForGuess(config.getSequenceLength());
-        List<Integer> correctSequence = sequenceChecker.createModifiedList(sequence, currentSession.getX());
-        float thinkingTimeSec = stopWatch.stop();
-        if (sequenceChecker.areEqual(correctSequence, playerGuessSequence)) {
-            if (thinkingTimeSec < config.getThinkingTimeSec()) {
-                // Correct answer, continue to the next round.
-                view.printCorrectSequenceMessage();
-                currentSession.addScore(config.getSequenceLength());
-            } else {
-                // Correct answer but too slow, finish the game.
-                view.printTimeOutMessage();
-                currentSession.finish();
-            }
-       } else {
-            // Wrong answer, finish the game.
-            view.printWrongSequenceMessage();
-            view.printCorrectSequence(correctSequence);
-            currentSession.finish();
-        }
+
+        // Start the timer to measure player thinking time, if it is too slow, the game session should be finished.
+        stopWatch.start();
+        playerGuessSequence = view.askForGuess(config.getSequenceLength());
+
+        // Stop the timer to get the measurement.
+        thinkingTime = stopWatch.stop();
+        correctSequence = AGNumberSequenceChecker.createModifiedList(sequence, currentSession.getX());
+        handleRoundEnd(correctSequence, playerGuessSequence, config.getThinkingTimeMs(), thinkingTime);
     }
 }

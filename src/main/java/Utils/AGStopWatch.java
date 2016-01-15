@@ -24,11 +24,11 @@ public class AGStopWatch {
     }
 
     /**
-     * Stops the stop watch and returns the time interval since the last start in seconds.
+     * Stops the stop watch and returns the time interval since the last start in ms.
      *
-     * @return The time interval in seconds since the last start.
+     * @return The time interval in ms since the last start.
      */
     public float stop() {
-        return (float) ((System.currentTimeMillis() - startTimeMillis) / 1000.0);
+        return System.currentTimeMillis() - startTimeMillis;
     }
 }

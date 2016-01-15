@@ -13,7 +13,7 @@ public class Main {
         Configuration configFile = new Configuration();
 
         // Create the game configuration based on the configurations file
-        AGGameConfiguration config = new AGGameConfiguration(configFile.getSequenceLength(), configFile.getThinkingTimeSec());
+        AGGameConfiguration config = new AGGameConfiguration(configFile.getSequenceLength(), configFile.getThinkingTimeMs());
 
         // Initialize the game. The game instance is responsible for exiting the game.
         AGGameController game = new AGGameController(config);

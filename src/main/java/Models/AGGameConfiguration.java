@@ -9,17 +9,17 @@ package Models;
 public class AGGameConfiguration {
 
     private final int sequenceLength;
-    private final int thinkingTimeSec;
+    private final float thinkingTimeMs;
 
     /**
      * Constructor.
      *
      * @param sequenceLength The sequence length.
-     * @param thinkingTimeSec The thinking time in seconds.
+     * @param thinkingTimeMs The thinking time in ms.
      */
-    public AGGameConfiguration(int sequenceLength, int thinkingTimeSec) {
+    public AGGameConfiguration(int sequenceLength, float thinkingTimeMs) {
         this.sequenceLength = sequenceLength;
-        this.thinkingTimeSec = thinkingTimeSec;
+        this.thinkingTimeMs = thinkingTimeMs;
     }
 
     /**
@@ -30,10 +30,10 @@ public class AGGameConfiguration {
     }
 
     /**
-     * @return The configuration thinking time in seconds.
+     * @return The configuration thinking time in ms.
      */
-    public int getThinkingTimeSec() {
-        return thinkingTimeSec;
+    public float getThinkingTimeMs() {
+        return thinkingTimeMs;
     }
 }
 

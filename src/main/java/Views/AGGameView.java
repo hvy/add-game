@@ -31,7 +31,7 @@ public class AGGameView {
         // Get all available game modes.
         AGGameModeOption[] options = AGGameModeOption.values();
         Integer option = cli.readInt();
-        if (option == null || option > options.length) {
+        if (!isValidGameOption(option, options.length)) {
             // Ask for the game mode again since the last selection was invalid.
             cli.write(AGTexts.INVALID_INPUT);
             cli.write("\n");
@@ -41,8 +41,8 @@ public class AGGameView {
         AGGameModeOption selection = options[option - 1];
         if (selection == AGGameModeOption.ADD_X) {
             cli.write(AGTexts.PROMPT_X);
-            Integer x;
-            if ((x = cli.readInt()) != null && x >= 0) {
+            Integer x = cli.readInt();
+            if (isValidX(x)) {
                 selection.x = x;
             } else {
                 cli.write(AGTexts.INVALID_INPUT);
@@ -65,6 +65,27 @@ public class AGGameView {
             cli.write(AGTexts.INVALID_INPUT);
         }
         return guess;
+    }
+
+    /**
+     * Validate the given game mode input option.
+     *
+     * @param option The game mode option.
+     * @param numOptions The number of game modes.
+     * @return True if the game mode options is leq numOptions, false otherwise.
+     */
+    public boolean isValidGameOption(Integer option, int numOptions) {
+        return option != null && option > 0 && option <= numOptions;
+    }
+
+    /**
+     * Validate the given X value.
+     *
+     * @param x The x value.
+     * @return True if x is not null and geq 0.
+     */
+    public boolean isValidX(Integer x) {
+        return x != null && x >= 0;
     }
 
     /**
