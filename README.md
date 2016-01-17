@@ -13,6 +13,7 @@ The game is round based an the goal is to survive as many rounds as possible. In
 
 ### Installation
 Run the following commands to clone the repository and install the game in the current working directory.
+
 ```
 git clone https://github.com/hvy/add-game.git
 cd add-game
@@ -21,7 +22,15 @@ mvn install
 
 ### Run
 Assuming that the installation was successful, run the following commands to start the game.
+
 ```
 cd target
 java -jar add-game-1.0-SNAPSHOT.jar
+```
+
+#### Run Tests
+Tests created with Nonbinary Variable Domain Analysis can be run using the following command.
+
+```
+mvn test
 ```
