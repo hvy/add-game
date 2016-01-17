@@ -133,20 +133,18 @@ public class AGGameController {
      * @param thinkingTime
      */
     public void handleRoundEnd(List<Integer> correctSequence, List<Integer> playerGuessSequence, float thinkingTimeLimit, float thinkingTime) {
-       if (AGNumberSequenceChecker.areEqual(correctSequence, playerGuessSequence)) {
-            if (isWithinTimeLimit(thinkingTimeLimit, thinkingTime)) {
-                // Correct answer, continue to the next round.
+        if (isWithinTimeLimit(thinkingTimeLimit, thinkingTime)) {
+            if (AGNumberSequenceChecker.areEqual(correctSequence, playerGuessSequence)) {
                 view.printCorrectSequenceMessage();
-                // Add to the user score the length of the sequence for a correct input.
                 addScore(correctSequence.size());
             } else {
-                view.printTimeOutMessage();
-                endSession(AGGameState.TIMED_OUT);
+                view.printWrongSequenceMessage();
+                view.printCorrectSequence(correctSequence);
+                endSession(AGGameState.WRONG_ANSWER);
             }
-       } else {
-            view.printWrongSequenceMessage();
-            view.printCorrectSequence(correctSequence);
-            endSession(AGGameState.WRONG_ANSWER);
+        } else {
+            view.printTimeOutMessage();
+            endSession(AGGameState.TIMED_OUT);
         }
     }
 

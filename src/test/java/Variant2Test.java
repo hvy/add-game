@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
  * @author hvy
  * @version 1.0
  */
-public class Variant1Test {
+public class Variant2Test {
 
     private AGGameController game;
 
@@ -51,8 +51,8 @@ public class Variant1Test {
 
     @Test
     public void testCase1() throws Exception {
-        game.handleRoundEnd(correctSequence, differByZeroGuessSequences, THINKING_TIME_LIMIT_MS, 0);
-        assertEquals(game.getCurrentScore(), SEQUENCE_LENGTH);
+        game.handleRoundEnd(correctSequence, differByOneGuessSequence, THINKING_TIME_LIMIT_MS, 0);
+        assertEquals(game.getCurrentScore(), 0);
         assertFalse(game.isTimedOut());
     }
 
@@ -63,14 +63,14 @@ public class Variant1Test {
 
     @Test
     public void testCase3() throws Exception {
-        game.handleRoundEnd(correctSequence, differByZeroGuessSequences, THINKING_TIME_LIMIT_MS, THINKING_TIME_LIMIT_MS);
-        assertEquals(game.getCurrentScore(), SEQUENCE_LENGTH);
+        game.handleRoundEnd(correctSequence, differByOneGuessSequence, THINKING_TIME_LIMIT_MS, THINKING_TIME_LIMIT_MS);
+        assertEquals(game.getCurrentScore(), 0);
         assertFalse(game.isTimedOut());
     }
 
     @Test
     public void testCase4() throws Exception {
-        game.handleRoundEnd(correctSequence, differByZeroGuessSequences, THINKING_TIME_LIMIT_MS, THINKING_TIME_LIMIT_MS + 1);
+        game.handleRoundEnd(correctSequence, differByOneGuessSequence, THINKING_TIME_LIMIT_MS, THINKING_TIME_LIMIT_MS + 1);
         assertEquals(game.getCurrentScore(), 0);
         assertTrue(game.isTimedOut());
     }
@@ -87,19 +87,14 @@ public class Variant1Test {
 
     @Test
     public void testCase7() throws Exception {
-        game.handleRoundEnd(correctSequence, differByOneGuessSequence, THINKING_TIME_LIMIT_MS, THINKING_TIME_LIMIT_MS);
-        assertEquals(game.getCurrentScore(), 0);
+        game.handleRoundEnd(correctSequence, differByZeroGuessSequences, THINKING_TIME_LIMIT_MS, THINKING_TIME_LIMIT_MS);
+        assertEquals(game.getCurrentScore(), SEQUENCE_LENGTH);
         assertFalse(game.isTimedOut());
     }
 
     @Test
     public void testCase8() throws Exception {
-       // N/A
-    }
-
-    @Test
-    public void testCase9() throws Exception {
-        // Duplicate of test case 3
+       // Duplicate of test case 3
     }
 }
 
