@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  * @author hvy
  * @version 1.0
  */
-public class AGGameSetupTest {
+public class InitializationTest {
 
     private static final int NUM_GAME_MODES = 3;
 
@@ -75,4 +75,3 @@ public class AGGameSetupTest {
         }
     }
 }
-

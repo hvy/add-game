@@ -192,5 +192,17 @@ public class AGGameView {
         cli.write(AGTexts.TIMEOUT_MESSSAGE);
         cli.write("\n");
     }
+
+    /**
+     * Print the thinking to the view.
+     *
+     * @param time The thinking time in ms.
+     */
+    public void printThinkingTime(float time) {
+        cli.write(AGTexts.PREFIX_THINKING_TIME);
+        cli.write(time / 1000);
+        cli.write(" s");
+        cli.write("\n");
+    }
 }
 

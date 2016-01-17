@@ -3,12 +3,12 @@ package Controllers;
 import Exceptions.AGInvalidArgumentException;
 import Models.AGGameConfiguration;
 import Models.AGGameSession;
+import Models.AGGameState;
 import Utils.AGNumberSequenceChecker;
 import Utils.AGRandomNumberGenerator;
 import Utils.AGStopWatch;
 import Views.AGGameView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,9 +77,11 @@ public class AGGameController {
 
     /**
      * End the current session. This method should be called to exit the game.
+     *
+     * @param reason The reason why the game session is ended, e.g. a time out or a wrong answer.
      */
-    public void endSession() {
-        currentSession.finish();
+    public void endSession(AGGameState reason) {
+        currentSession.setState(reason);
     }
 
     /**
@@ -90,16 +92,22 @@ public class AGGameController {
     }
 
     /**
+     * @return True if the session is finished due to a timed out.
+     */
+    public boolean isTimedOut() {
+        return currentSession.getState() == AGGameState.TIMED_OUT;
+    }
+
+    /**
      * Returns true if the given time is acceptable with respect to the given time limit.
      *
      * @param timeLimit The time limit, i.e. the maximum allowed time.
      * @param time The time that is tested for acceptance.
      * @return True if the time is acceptable, false otherwise.
      */
-    public boolean isWithinTimeLimit(float timeLimit, float time) {
+    private boolean isWithinTimeLimit(float timeLimit, float time) {
         return time <= timeLimit;
     }
-
 
     /**
      * @return The current player session score.
@@ -132,15 +140,13 @@ public class AGGameController {
                 // Add to the user score the length of the sequence for a correct input.
                 addScore(correctSequence.size());
             } else {
-                // Correct answer but too slow, finish the game.
                 view.printTimeOutMessage();
-                endSession();
+                endSession(AGGameState.TIMED_OUT);
             }
        } else {
-            // Wrong answer, finish the game.
             view.printWrongSequenceMessage();
             view.printCorrectSequence(correctSequence);
-            endSession();
+            endSession(AGGameState.WRONG_ANSWER);
         }
     }
 
@@ -158,6 +164,7 @@ public class AGGameController {
 
         // Stop the timer to get the measurement.
         thinkingTime = stopWatch.stop();
+        view.printThinkingTime(thinkingTime);
         correctSequence = AGNumberSequenceChecker.createModifiedList(sequence, currentSession.getX());
         handleRoundEnd(correctSequence, playerGuessSequence, config.getThinkingTimeMs(), thinkingTime);
     }

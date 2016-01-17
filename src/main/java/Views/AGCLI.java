@@ -36,6 +36,15 @@ public class AGCLI {
     }
 
     /**
+     * Write an float to the output stream.
+     *
+     * @param i The float to write to the output stream.
+     */
+    public void write(float i) {
+        out.print(i);
+    }
+
+    /**
      * Write a String to the output stream.
      *
      * @param s The String to write to the output stream.

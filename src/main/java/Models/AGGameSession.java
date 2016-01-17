@@ -10,7 +10,7 @@ public class AGGameSession {
 
     private final int x;
     private int score;
-    private boolean isFinished;
+    private AGGameState state;
 
     /**
      * Constructor.
@@ -20,7 +20,7 @@ public class AGGameSession {
     public AGGameSession(int x) {
         this.x = x % 10;
         this.score = 0;
-        this.isFinished = false;
+        this.state = AGGameState.ACTIVE;
     }
 
     /**
@@ -34,7 +34,7 @@ public class AGGameSession {
      * @return True if the game is finished, false otherwise.
      */
     public boolean isFinished() {
-        return isFinished;
+        return state != AGGameState.ACTIVE;
     }
 
     /**
@@ -54,10 +54,19 @@ public class AGGameSession {
     }
 
     /**
-     * Updates the state of this game session to finished.
+     * @return The current state of this session.
      */
-    public void finish() {
-        isFinished = true;
+    public AGGameState getState() {
+        return state;
+    }
+
+    /**
+     * Updates the state of this game session to the given state.
+     *
+     * @param state The reason why the game ended.
+     */
+    public void setState(AGGameState state) {
+        this.state = state;
     }
 }
 

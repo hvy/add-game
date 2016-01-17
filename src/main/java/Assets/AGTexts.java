@@ -30,6 +30,7 @@ public class AGTexts {
     public static final String PREFIX_TOTAL_SCORE = "Total Score: ";
     public static final String PREFIX_X = "Starting game with x: ";
     public static final String PREFIX_SEQUENCE = "Sequence: ";
+    public static final String PREFIX_THINKING_TIME = "Time: ";
 
     // Error messages
     public static final String INVALID_INPUT = "Invalid input";
