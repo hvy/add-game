@@ -126,14 +126,18 @@ public class AGGameController {
     }
 
     /**
-     * The
-     * @param correctSequence
-     * @param playerGuessSequence
-     * @param thinkingTimeLimit
-     * @param thinkingTime
+     * Handle the end of game round, such as comparing the thinking time against the time limit, adding the score,
+     * and ending the session.
+     *
+     * @param correctSequence The correct sequence.
+     * @param playerGuessSequence The user input sequence.
+     * @param thinkingTimeLimit The maximum allowed thinking time in ms.
+     * @param thinkingTime The user thinking time in ms.
      */
     public void handleRoundEnd(List<Integer> correctSequence, List<Integer> playerGuessSequence, float thinkingTimeLimit, float thinkingTime) {
+        // 1. Check the thinking time
         if (isWithinTimeLimit(thinkingTimeLimit, thinkingTime)) {
+            // 2. Check the input sequence
             if (AGNumberSequenceChecker.areEqual(correctSequence, playerGuessSequence)) {
                 view.printCorrectSequenceMessage();
                 addScore(correctSequence.size());
