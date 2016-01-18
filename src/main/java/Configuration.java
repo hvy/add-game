@@ -14,10 +14,21 @@ public final class Configuration {
     private float thinkingTimeMs;
 
     /**
-     * Default constructor that automatically loads the configuration file.
+     * Custom constructor that takes the configuration properties file path as argument.
+     *
+     * @param fileName The path to the configuration file.
+     * @return An instance of this class configures with the given file.
      */
-    public Configuration() {
-        loadFile();
+    public static Configuration newFromFile(String fileName) {
+        Configuration config = new Configuration();
+        config.loadFile(fileName);
+        return config;
+    }
+
+    /**
+     * Default private constructor that creates an empty configuration instance.
+     */
+    private Configuration() {
     }
 
     /**
@@ -37,10 +48,10 @@ public final class Configuration {
     /**
      * Load the file from the configuration file and sets the class properties accordingly.
      */
-    private void loadFile() {
+    private void loadFile(String fileName) {
         InputStream in = null;
         try {
-            in = this.getClass().getClassLoader().getResourceAsStream("configuration.properties");
+            in = this.getClass().getClassLoader().getResourceAsStream(fileName);
             Properties properties = new Properties();
             properties.load(in);
             sequenceLength = Integer.parseInt(properties.getProperty("sequencelength"));
